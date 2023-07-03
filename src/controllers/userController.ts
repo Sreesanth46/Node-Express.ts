@@ -24,7 +24,7 @@ export const register = async (req: Request, res: Response) => {
             verified: false
         })
 
-        await sendMail(`Please verify your email with the otp ${user.otp}`, email, `Mail verification`)
+        await sendMail(`Please verify your email with the otp ${process.env.CLIENT_URL}/signup?otp=${user.otp}`, email, `Mail verification`)
 
         return res.status(201).json(user).end();
     } catch (err) {
