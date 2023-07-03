@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { createUser, getUserByEmail } from '../models/user.js';
 import { authentication, generateOTP } from '../helpers/index.js';
+import { sendMail } from '../helpers/mailer.js';
 
 const SALT = process.env.SALT || 'PASSWORD_SALT';
 
@@ -22,6 +23,8 @@ export const register = async (req: Request, res: Response) => {
             otp: generateOTP(),
             verified: false
         })
+
+        await sendMail(`Please verify your email with the otp ${user.otp}`, email, `Mail verification`)
 
         return res.status(201).json(user).end();
     } catch (err) {
