@@ -5,13 +5,14 @@ import mongoose from "mongoose";
 import router from "./router/index.js";
 
 const port = process.env.PORT || 8080;
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017"
 
 const app: Express = express();
 
 app.use(bodyParser.json());
 app.use('/', router());
 
-mongoose.connect('mongodb://localhost:27017', {})
+mongoose.connect(dbUrl)
     .then(() => console.log("DB connected"))
     .catch((err: Error) => console.log("Error connecting to MongoDB", err))
 
