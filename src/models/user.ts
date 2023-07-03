@@ -7,6 +7,7 @@ interface IUser {
     contactMode: string;
     email: string;
     otp: number;
+    verified: boolean;
 }
 
 const userSchema = new mongoose.Schema({
@@ -34,6 +35,10 @@ const userSchema = new mongoose.Schema({
     otp: {
         type: Number,
         required: true,
+    },
+    verified: {
+        type: Boolean,
+        required: true,
     }
 })
 
@@ -44,3 +49,4 @@ export const getUserByEmail = (email: string) => User.findOne({ email });
 export const getUserById = (id: string) => User.findById(id);
 
 export const createUser = (values: IUser) => new User(values).save().then((user) => user.toObject());
+export const findByIdAndUpdate = (id: string, values: Record<string, any>) => User.findByIdAndUpdate(id, values);
